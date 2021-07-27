@@ -16,6 +16,7 @@ export class DataServices {
         (response) =>
           console.log(response),
         (error) => console.log('Error al guardar persona')
-      );
+    );
+    
   }
 }
