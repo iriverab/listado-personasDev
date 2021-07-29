@@ -11,16 +11,23 @@ export class PersonasService {
   ) {}
 
   saludar = new EventEmitter<number>();
-  personas: Persona[] = [
-    new Persona('Juan', 'Perez'),
-    new Persona('Laura', 'Juarez'),
-    new Persona('karla', 'Lara'),
-  ];
+  personas: Persona[] = [];
+
+  obtenerPersonas() {
+    return this.dataServices.getPersonas();
+  }
+
+  setPersonas(personas: Persona[]) {
+    this.personas = personas;
+  }
 
   agregarPersona(persona: Persona) {
     this.logginService.enviaMensajeAConsola(
       'Agregamos persona' + persona.nombre
     );
+    if (this.personas == null) {
+      this.personas = [];
+    }
     this.personas.push(persona);
     this.dataServices.guardarPersonas(this.personas);
   }
@@ -29,10 +36,20 @@ export class PersonasService {
     let persona1 = this.personas[indice];
     persona1.nombre = persona.nombre;
     persona1.apellido = persona.apellido;
+    this.dataServices.modificarPersona(indice, persona);
   }
 
   eliminarPersona(index: number) {
     this.personas.splice(index, 1);
+    this.dataServices.eliminarPersona(index);
+    //se vuelve a guardar el arreglo
+    this.modificarPersonas();
+  }
+
+  modificarPersonas() {
+    if (this.personas != null) {
+      this.dataServices.guardarPersonas(this.personas);
+    }
   }
 
   encontrarPersona(index: number) {

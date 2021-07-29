@@ -12,11 +12,38 @@ import { PersonasComponent } from './personas/personas.component';
 import { ErrorComponent } from './error/error.component';
 import { DataServices } from './data.services';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+
+ import { environment } from 'src/environments/environment';
+ import { AngularFireModule } from '@angular/fire';
+ import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AuthenticationService } from './login/authenticationService.service';
+import { LoginGuardian } from './login/login.guardian.service';
 
 @NgModule({
-  declarations: [AppComponent, PersonaComponent, FormularioComponent, PersonasComponent, ErrorComponent],
-  imports: [BrowserModule, FormsModule , AppRoutingModule,HttpClientModule],
-  providers: [PersonasService,LoggingService,DataServices],
+  declarations: [
+    AppComponent,
+    PersonaComponent,
+    FormularioComponent,
+    PersonasComponent,
+    ErrorComponent,
+    LoginComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+  ],
+  providers: [
+    PersonasService,
+    LoggingService,
+    DataServices,
+    AuthenticationService,
+    LoginGuardian
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
